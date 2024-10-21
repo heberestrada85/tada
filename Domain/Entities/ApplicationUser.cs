@@ -19,5 +19,7 @@ namespace Tada.Domain.Entities
         public string  SecondSurname { get; set; }
 
         public int IdDepartment { get; set; }
+
+        public ICollection<RefreshToken> RefreshTokens { get; set; }
     }
 }
