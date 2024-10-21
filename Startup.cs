@@ -94,10 +94,12 @@ namespace Tada
             app.UseHealthChecks("/health");
             app.UseResponseCompression();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
             app.UseMvc();
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(

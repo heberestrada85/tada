@@ -34,7 +34,7 @@ namespace Tada.Infrastructure.Identity
             _dateTimeService = dateTimeService;
         }
 
-        public async Task<string> GetUsernameAsync(string userId)
+        public async Task<string> GetUserNameAsync(string userId)
         {
             var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
 

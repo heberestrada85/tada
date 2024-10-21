@@ -33,12 +33,11 @@ namespace Tada.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
-                    Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Firstname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     SecondSurname = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     IdDepartment = table.Column<int>(type: "int", nullable: false),
-                    UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedEmail = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(type: "bit", nullable: false),

@@ -20,7 +20,7 @@ namespace Tada.Application.Interface
 {
     public interface IIdentityService
     {
-        Task<string> GetUsernameAsync(string userId);
+        Task<string> GetUserNameAsync(string userId);
 
         Task<(Result Result, UserApp UserId)> CreateUserAsync(UserApp user, bool validateRole = true);
 

@@ -8,7 +8,7 @@ namespace Tada.Application.Models
         public string UserID { get; set; }
 
         [Required]
-        public string Username { get; set; }
+        public string UserName { get; set; }
 
         [Required]
         public string Firstname { get; set; }
