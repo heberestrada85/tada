@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.002.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tada", "Tada.csproj", "{64F8AD88-7ABE-4FD0-AE4E-C9EEDFD92B83}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{64F8AD88-7ABE-4FD0-AE4E-C9EEDFD92B83}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{64F8AD88-7ABE-4FD0-AE4E-C9EEDFD92B83}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{64F8AD88-7ABE-4FD0-AE4E-C9EEDFD92B83}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{64F8AD88-7ABE-4FD0-AE4E-C9EEDFD92B83}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EC5508E1-4602-4C6E-85F4-9C9059B002E4}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tada</name>
+    </assembly>
+    <members>
+        <member name="M:Tada.Infrastructure.Identity.Auth.JwtFactory.ThrowIfInvalidOptions(Tada.Application.Extensions.JwtIssuerOptions)">
+            <param name="options"></param>
+        </member>
+        <member name="M:Tada.Program.Main(System.String[])">
+            <param name="args"></param>
+        </member>
+        <member name="M:Tada.Program.CreateWebHostBuilder(System.String[])">
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

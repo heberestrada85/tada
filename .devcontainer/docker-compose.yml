@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  app:
+    platform: linux/x86_64
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - type: bind
+        source: ..
+        target: /workspace
+      - type: bind
+        source: ${HOME}${USERPROFILE}/.nuget
+        target: /root/.nuget
+    working_dir: /workspace
+    command: sleep infinity
+    ports:
+      - "5001:5001"
+    env_file:
+      - ../.env
+    depends_on:
+      - sqlserver
+
+  sqlserver:
+    image: 'mcr.microsoft.com/mssql/server:2019-latest'
+    volumes:
+      - 'vol-sqlserver:/var/opt/mssql'
+    ports:
+      - "1433:1433"
+    hostname: sqlserver
+    environment:
+      SA_PASSWORD: "s1mpl3P4ssw0rd"
+      ACCEPT_EULA: "Y"
+
+
+volumes:
+  vol-sqlserver:
