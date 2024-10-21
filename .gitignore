@@ -1,6 +1,7 @@
 # See http:/help.github.com/ignore-files/ for more about ignoring files.
 
 # IDE
+**/.vs/*
 **/.vscode/*
 
 # System Files
@@ -8,5 +9,5 @@
 Thumbs.db
 
 # Build Files
-**/bin/*
-**/obj/*
+**bin/*
+**obj/*
