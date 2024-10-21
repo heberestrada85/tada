@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Tada")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+454a52feb6b0d71f59a111a9687c197e42a3853a")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e80683ee256e4a5222ef9f4adde96d80bade7094")]
 [assembly: System.Reflection.AssemblyProductAttribute("Tada")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Tada")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
