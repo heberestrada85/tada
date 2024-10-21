@@ -4,14 +4,15 @@ using System.Collections.Generic;
 using Tada.Application.Interface;
 using Tada.Application.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Tada.Infrastructure.Persistence;
+using Tada.Infrastructure.Services;
+using System.IdentityModel.Tokens.Jwt;
 using Tada.Infrastructure.Identity.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
 
 namespace Tada.Infrastructure
 {
