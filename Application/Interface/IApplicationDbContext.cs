@@ -3,6 +3,7 @@ using System.Threading;
 using Tada.Domain.Entities;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using Tada.Application.Interface;
 using Microsoft.EntityFrameworkCore;
 
 namespace Tada.Application.Interface

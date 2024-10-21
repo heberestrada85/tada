@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "oibP1F6fSPA=",
+  "dgSpecHash": "A3d6lLX7qv8=",
   "success": true,
   "projectFilePath": "/workspace/Tada.csproj",
   "expectedPackageFiles": [
@@ -9,6 +9,8 @@
     "/root/.nuget/packages/azure.identity/1.10.3/azure.identity.1.10.3.nupkg.sha512",
     "/root/.nuget/packages/fluentvalidation/11.10.0/fluentvalidation.11.10.0.nupkg.sha512",
     "/root/.nuget/packages/humanizer.core/2.14.1/humanizer.core.2.14.1.nupkg.sha512",
+    "/root/.nuget/packages/mediatr/12.4.1/mediatr.12.4.1.nupkg.sha512",
+    "/root/.nuget/packages/mediatr.contracts/2.0.1/mediatr.contracts.2.0.1.nupkg.sha512",
     "/root/.nuget/packages/microsoft.aspnetcore.authentication.jwtbearer/8.0.10/microsoft.aspnetcore.authentication.jwtbearer.8.0.10.nupkg.sha512",
     "/root/.nuget/packages/microsoft.aspnetcore.cryptography.internal/8.0.10/microsoft.aspnetcore.cryptography.internal.8.0.10.nupkg.sha512",
     "/root/.nuget/packages/microsoft.aspnetcore.cryptography.keyderivation/8.0.10/microsoft.aspnetcore.cryptography.keyderivation.8.0.10.nupkg.sha512",

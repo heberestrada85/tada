@@ -68,6 +68,7 @@ namespace Tada.Infrastructure
                 };
             });
 
+            services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IJwtTokenHandler, JwtTokenHandler>();
             services.AddTransient<IJwtTokenValidator, JwtTokenValidator>();
             services.AddTransient<IJwtFactory, JwtFactory>();
