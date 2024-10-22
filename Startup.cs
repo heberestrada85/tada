@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Tada.Application;
 using System.Reflection;
 using Tada.Infrastructure;
@@ -8,14 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Tada.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
-using Tada.Infrastructure.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.IO;
-using Microsoft.AspNetCore.HttpOverrides;
+
 using Microsoft.AspNetCore.ResponseCompression;
 using System.IO.Compression;
 
@@ -104,7 +98,7 @@ namespace Tada
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

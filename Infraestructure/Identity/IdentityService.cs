@@ -129,41 +129,6 @@ namespace Tada.Infrastructure.Identity
             return Result.Failure(new[] {"No se puede eliminar el usuario solicitado"});
         }
 
-        public async Task<Result> DeleteUserAsync(List<string> userIds)
-        {
-            foreach (string userId in userIds)
-            {
-                ApplicationUser user = await _userManager.Users.FirstOrDefaultAsync(t => t.Id.Equals(userId));
-
-                IdentityResult result = await _userManager.UpdateAsync(user);
-
-                if (!result.Succeeded)
-                {
-                    return Result.Failure(new[] {"No se puede eliminar alguno de los usuarios indicados"});
-                }
-            }
-
-            return Result.Success();
-        }
-
-        public IQueryable<ApplicationUser> GetAll(Expression<Func<ApplicationUser, bool>> predicate)
-        {
-            IQueryable<ApplicationUser> applicationUsers = _userManager.Users.Where(predicate)
-                .Select(r =>
-                    new ApplicationUser
-                    {
-                        Id = r.Id,
-                        Email = r.Email,
-                        Firstname = r.Firstname,
-                        Surname = r.Surname,
-                        SecondSurname = r.SecondSurname,
-                        NormalizedEmail = r.NormalizedEmail,
-                    }
-                );
-
-            return applicationUsers;
-        }
-
         public async Task<(ApplicationUser, IList<string>)> GetById(string userId)
         {
             ApplicationUser applicationUsers = _userManager.Users.Where(o =>  o.Id == userId)
@@ -183,26 +148,6 @@ namespace Tada.Infrastructure.Identity
             return (applicationUsers, role);
         }
 
-        public async Task<(ApplicationUser, IList<string>)> GetUserWithRoles(string userId)
-        {
-            ApplicationUser applicationUsers = _userManager.Users.Where(o =>  o.Id == userId)
-                .Select(r =>
-                    new ApplicationUser
-                    {
-                        Id = r.Id,
-                        Firstname = r.Firstname,
-                        Surname = r.Surname,
-                        SecondSurname = r.SecondSurname,
-                        Email = r.Email,
-                        NormalizedEmail = r.NormalizedEmail
-                    }
-                ).FirstOrDefault();
-
-            IList<string> roleNames = await _userManager.GetRolesAsync(applicationUsers);
-
-            return (applicationUsers, roleNames);
-        }
-
         public async Task<Result> DeleteUserAsync(ApplicationUser user)
         {
             var result = await _userManager.DeleteAsync(user);
@@ -210,32 +155,9 @@ namespace Tada.Infrastructure.Identity
             return result.ToApplicationResult();
         }
 
-        public async Task<Result> AssingEmployee(string userId)
-        {
-            ApplicationUser user = await _userManager.Users
-               .FirstOrDefaultAsync(t => t.Id.Equals(userId));
-
-            if (user is null)
-            {
-                return Result.Failure(new[] { "El usuario no se encontro" });
-            }
-
-            try
-            {
-                await _userManager.UpdateAsync(user);
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex);
-                return Result.Failure( new[] { ex.Message });
-            }
-
-            return Result.Success();
-        }
-
         public async Task<(Result result, ApplicationUser user, IList<string> roles, IList<Claim> claims)> AuthenticateUser(AuthenticateModel authenticateUser)
         {
-            ApplicationUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email.Equals(authenticateUser.Email));
+            ApplicationUser user = await _userManager.Users.FirstOrDefaultAsync(u => u.Email.Equals(authenticateUser.UserName));
 
             if (user == null)
             {

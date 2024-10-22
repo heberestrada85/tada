@@ -13,20 +13,15 @@
         "request": "launch",
         "preLaunchTask": "build",
         // If you have changed target frameworks, make sure to update the program path.
-        "program": "${workspaceFolder}/Tada/bin/Debug/net6.0/Tada.dll",
+        "program": "${workspaceFolder}/bin/Debug/net6.0/Tada.dll",
         "args": [],
-        "cwd": "${workspaceFolder}/Tada",
+        "cwd": "${workspaceFolder}",
         "stopAtEntry": false,
         "requireExactSource": false,
         // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
         "env": {
           "ASPNETCORE_ENVIRONMENT": "Development",
         }
-      },
-      {
-        "name": ".NET Core Attach",
-        "type": "coreclr",
-        "request": "attach"
       }
     ]
   }

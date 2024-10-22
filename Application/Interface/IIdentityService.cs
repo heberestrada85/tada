@@ -28,13 +28,7 @@ namespace Tada.Application.Interface
 
         Task<Result> DeleteUserAsync(string userId);
 
-        Task<Result> DeleteUserAsync(List<string> userIds);
-
-        IQueryable<ApplicationUser> GetAll(Expression<Func<ApplicationUser, bool>> predicate);
-
         Task<(ApplicationUser, IList<string>)> GetById(string userId);
-
-        Task<(ApplicationUser, IList<string>)> GetUserWithRoles(string userId);
 
         Task<(Result result, ApplicationUser user, IList<string> roles, IList<Claim> claims)> AuthenticateUser(AuthenticateModel authenticateUser);
     }
