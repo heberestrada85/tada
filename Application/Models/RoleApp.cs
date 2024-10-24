@@ -19,10 +19,6 @@ namespace Tada.Application.Models
 
         public string Description;
 
-        public long IdCorporacion;
-
-        public long[] Locations;
-
         public DateTime? CreatedAt;
 
         public DateTime? UpdatedAt;

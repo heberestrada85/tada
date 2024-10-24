@@ -6,9 +6,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Identity;
+using Tada.Infrastructure.Persistence;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
 
 namespace Tada
 {
@@ -25,7 +26,7 @@ namespace Tada
                 try
                 {
                     IServiceProvider services = scope.ServiceProvider;
-                    //await ApplicationDbContextSeed.SeedAsync(services);
+                    await ApplicationDbContextSeed.SeedAsync(services);
                 }
                 catch (Exception ex)
                 {

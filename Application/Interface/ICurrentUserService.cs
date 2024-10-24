@@ -6,6 +6,6 @@ namespace Tada.Application.Interface
     {
         public string UserId { get; }
 
-        public string Username { get; }
+        public string UserName { get; }
     }
 }

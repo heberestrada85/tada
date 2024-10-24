@@ -11,3 +11,5 @@ Thumbs.db
 # Build Files
 **bin/*
 **obj/*
+
+.fake

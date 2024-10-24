@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Reflection;
-using System.Collections.Generic;
+using Tada.Domain.Entities;
 using Tada.Application.Interface;
 using Tada.Application.Extensions;
+using Tada.Infrastructure.Services;
+using Microsoft.Extensions.Logging;
+using Tada.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Tada.Infrastructure.Persistence;
-using Tada.Infrastructure.Services;
-using System.IdentityModel.Tokens.Jwt;
 using Tada.Infrastructure.Identity.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,14 +20,46 @@ namespace Tada.Infrastructure
     {
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder
+                    .AddFilter((category, level) =>
+                        category == DbLoggerCategory.Database.Command.Name
+                        && level == LogLevel.Information)
+                    .AddConsole();
+            });
+
             services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(
                         configuration.GetConnectionString("DefaultConnection"),
                         b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)
                     )
+                    .LogTo(Console.WriteLine,LogLevel.Information)
+                    .UseLoggerFactory(loggerFactory)
                 );
 
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                    options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                    options.User.RequireUniqueEmail = true;
+                    options.Password.RequireDigit = false;
+                    options.Password.RequireLowercase = true;
+                    options.Password.RequireNonAlphanumeric = false;
+                    options.Password.RequireUppercase = false;
+                    options.Password.RequiredLength = 4;
+                })
+                .AddRoles<ApplicationRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IIdentityRoleService, IdentityRoleService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddSingleton<IJwtTokenHandler, JwtTokenHandler>();
+            services.AddSingleton<IJwtTokenValidator, JwtTokenValidator>();
+            services.AddSingleton<IJwtFactory, JwtFactory>();
+            services.AddSingleton<ITokenFactory, TokenFactory>();
 
             return services;
         }

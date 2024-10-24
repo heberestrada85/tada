@@ -35,12 +35,12 @@ namespace Tada.Infrastructure.Identity.Auth
 
         public async Task<AccessToken> GenerateEncodedToken(ApplicationUser user)
         {
-            ClaimsIdentity identity = GenerateClaimsIdentity(user.Id, user.Username);
+            ClaimsIdentity identity = GenerateClaimsIdentity(user.Id, user.UserName);
 
             List<Claim> claims = new List<Claim>(new[]
             {
                 new Claim(ClaimTypes.Sid, user.Id),
-                new Claim(ClaimTypes.NameIdentifier, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.UserName),
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
                 new Claim(JwtRegisteredClaimNames.Jti, await _jwtOptions.JtiGenerator()),
                 new Claim(JwtRegisteredClaimNames.Iat, ToUnixEpochDate(_jwtOptions.IssuedAt).ToString(), ClaimValueTypes.Integer64),

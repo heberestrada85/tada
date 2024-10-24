@@ -3,11 +3,11 @@
     "tasks": [
       {
         "label": "build",
-        "command": "/usr/local/bin/dotnet",
+        "command": "/usr/bin/dotnet",
         "type": "process",
         "args": [
           "build",
-          "${workspaceFolder}/Tada/Tada.csproj",
+          "${workspaceFolder}/Tada.csproj",
           "/property:GenerateFullPaths=true",
           "/consoleloggerparameters:NoSummary"
         ],
@@ -15,11 +15,11 @@
       },
       {
         "label": "publish",
-        "command": "/usr/local/bin/dotnet",
+        "command": "/usr/bin/dotnet",
         "type": "process",
         "args": [
           "publish",
-          "${workspaceFolder}/Tada/Tada.csproj",
+          "${workspaceFolder}/Tada.csproj",
           "/property:GenerateFullPaths=true",
           "/consoleloggerparameters:NoSummary"
         ],
@@ -27,13 +27,13 @@
       },
       {
         "label": "watch",
-        "command": "/usr/local/bin/dotnet",
+        "command": "/usr/bin/dotnet",
         "type": "process",
         "args": [
           "watch",
           "run",
           "--project",
-          "${workspaceFolder}/Tada/Tada/Tada.csproj"
+          "${workspaceFolder}/Tada.csproj"
         ],
         "problemMatcher": "$msCompile"
       }

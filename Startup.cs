@@ -1,37 +1,30 @@
-using System;
-using System.Linq;
 using Tada.Application;
 using System.Reflection;
 using Tada.Infrastructure;
 using Tada.Domain.Entities;
+using System.IO.Compression;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-using Tada.Infrastructure.Services;
 using Microsoft.AspNetCore.Identity;
-using Tada.Infrastructure.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.IO;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
-using System.IO.Compression;
 
 namespace Tada
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
+        readonly string CorsPolicy = "_CorsPolicy";
+
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
             Environment = environment;
         }
-
-        public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get; }
-        readonly string CorsPolicy = "_CorsPolicy";
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -94,15 +87,17 @@ namespace Tada
             app.UseHealthChecks("/health");
             app.UseResponseCompression();
 
-            app.UseAuthentication();
-            app.UseAuthorization();
             app.UseMvc();
             app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    pattern: "{controller=Accounts}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

@@ -10,7 +10,7 @@ namespace Tada.Application.Validators
             RuleFor(e => e.Firstname).NotEmpty();
             RuleFor(e => e.Surname).NotEmpty();
             RuleFor(e => e.Password).NotEmpty();
-            RuleFor(e => e.Username).NotEmpty();
+            RuleFor(e => e.UserName).NotEmpty();
             RuleFor(e => e.Email).NotEmpty();
         }
     }
