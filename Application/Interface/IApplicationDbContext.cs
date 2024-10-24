@@ -13,6 +13,7 @@ namespace Tada.Application.Interface
         DbSet<ApplicationUser> ApplicationUser { get; set; }
         DbSet<ApplicationRole> ApplicationRole { get; set; }
         DbSet<RefreshToken> RefreshToken { get; set; }
+        DbSet<Invitations> Invitations { get; set; }
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

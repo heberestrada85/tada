@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Tada.Application.Interface;
 using System.Text.Json;
 
-namespace Tada.Application.Commands.Users
+namespace Tada.Application.Commands
 {
     public class AuthenticateUserCommand : IRequest<(Result result, UserApp user)>
     {

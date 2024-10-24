@@ -22,6 +22,7 @@ namespace Tada.Infrastructure.Persistence
         public virtual DbSet<ApplicationUser> ApplicationUser { get; set; }
         public virtual DbSet<ApplicationRole> ApplicationRole { get; set; }
         public virtual DbSet<RefreshToken> RefreshToken { get; set; }
+        public virtual DbSet<Invitations> Invitations { get; set; }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {

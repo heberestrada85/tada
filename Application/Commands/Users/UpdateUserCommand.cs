@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using Tada.Application.Interface;
 using Microsoft.Extensions.Logging;
 
-namespace Tada.Application.Commands.Users
+namespace Tada.Application.Commands
 {
     public class UpdateUserCommand : IRequest<(Result, UserApp)>
     {

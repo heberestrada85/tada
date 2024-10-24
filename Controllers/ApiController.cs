@@ -5,9 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Tada.Controllers
 {
-    [Route("")]
+    [Route("api/[controller]")]
+    [ApiController]
     [Authorize]
-    public abstract class BaseController : ControllerBase
+    public abstract class ApiController : ControllerBase
     {
         private IMediator _mediator;
 
