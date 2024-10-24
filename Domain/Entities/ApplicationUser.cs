@@ -12,7 +12,7 @@ namespace Tada.Domain.Entities
 
         public string Surname { get; set; }
 
-        public string  SecondSurname { get; set; }
+        public string SecondSurname { get; set; }
 
         public int IdDepartment { get; set; }
 

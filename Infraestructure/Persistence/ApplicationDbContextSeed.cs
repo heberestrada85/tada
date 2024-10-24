@@ -54,7 +54,7 @@ namespace Tada.Infrastructure.Persistence
                     applicationUser.Surname = "Tada";
                     applicationUser.IdDepartment = 0;
 
-                    IdentityResult result = await userManager.CreateAsync(applicationUser, "development@dev.com");
+                    IdentityResult result = await userManager.CreateAsync(applicationUser, "admin");
 
                     if (result.Succeeded)
                         Console.WriteLine("User created");
@@ -62,13 +62,7 @@ namespace Tada.Infrastructure.Persistence
                         foreach (var error in result.Errors)
                             Console.WriteLine($"Error: {error.Code} - {error.Description} {error.Code}");
 
-                    if (admin == null)
-                    {
-                        string error = JsonSerializer.Serialize(result);
-                        throw new Exception(error);
-                    }
-
-                    admin = await userManager.FindByNameAsync("admin");
+                    admin = await userManager.FindByNameAsync("development@dev.com");
                 }
 
                 ApplicationRole role = await roleManager.FindByNameAsync("admin");

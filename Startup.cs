@@ -2,6 +2,7 @@ using Tada.Application;
 using System.Reflection;
 using Tada.Infrastructure;
 using Tada.Domain.Entities;
+using System.IO.Compression;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -9,23 +10,21 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
 using Microsoft.AspNetCore.ResponseCompression;
-using System.IO.Compression;
 
 namespace Tada
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+        public IWebHostEnvironment Environment { get; }
+        readonly string CorsPolicy = "_CorsPolicy";
+
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
         {
             Configuration = configuration;
             Environment = environment;
         }
-
-        public IConfiguration Configuration { get; }
-        public IWebHostEnvironment Environment { get; }
-        readonly string CorsPolicy = "_CorsPolicy";
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -98,7 +97,7 @@ namespace Tada
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Accounts}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }

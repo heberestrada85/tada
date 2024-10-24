@@ -1,22 +1,18 @@
 ﻿using System;
-using System.Reflection;
 using Tada.Domain.Entities;
-using System.Collections.Generic;
 using Tada.Application.Interface;
 using Tada.Application.Extensions;
 using Tada.Infrastructure.Services;
-using Tada.Application.Interface;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
+using Tada.Infrastructure.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Tada.Infrastructure.Persistence;
-using System.IdentityModel.Tokens.Jwt;
 using Tada.Infrastructure.Identity.Auth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
 
 namespace Tada.Infrastructure
 {
@@ -56,6 +52,14 @@ namespace Tada.Infrastructure
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddTransient<IDateTime, DateTimeService>();
+            services.AddTransient<IIdentityService, IdentityService>();
+            services.AddTransient<IIdentityRoleService, IdentityRoleService>();
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddSingleton<IJwtTokenHandler, JwtTokenHandler>();
+            services.AddSingleton<IJwtTokenValidator, JwtTokenValidator>();
+            services.AddSingleton<IJwtFactory, JwtFactory>();
+            services.AddSingleton<ITokenFactory, TokenFactory>();
 
             return services;
         }

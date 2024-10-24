@@ -6,11 +6,11 @@ namespace Tada.Infrastructure.Persistence.Configurations
 {
     public class RefreshTokenConfiguration : IEntityTypeConfiguration<RefreshToken>
     {
-        public void Configure(EntityTypeBuilder<RefreshToken> builder)
+        public void Configure(EntityTypeBuilder<RefreshToken> entity)
         {
-            builder.HasKey(e => e.Token);
+            entity.HasKey(e => e.Token);
 
-            builder.HasOne(d => d.User)
+            entity.HasOne(d => d.User)
                 .WithMany(p => p.RefreshTokens)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull)

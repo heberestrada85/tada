@@ -1,42 +1,53 @@
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using Tada.Application.Models;
-using Tada.Application.Users.Commands;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Tada.Application.Commands.Users;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tada.Controllers
 {
     public class HomeController : BaseController
     {
-        [HttpGet]
-        public IActionResult Index()
+
+        [HttpPost ("signup")]
+        public async Task<IActionResult> Create([FromBody]  UserApp user)
         {
-            return View();
+            (Result result, UserApp user) result = await Mediator.Send(new CreateUserCommand(user));
+
+            if (result.result.Succeeded)
+                return Ok(result);
+
+            return BadRequest(result);
         }
 
-        [HttpGet]
-        public IActionResult Login()
+        [HttpPut("recover")]
+        public async Task<IActionResult> Update([FromBody]  UserApp user)
         {
-            return View();
+            (Result result, UserApp user) result = await Mediator.Send(new UpdateUserCommand(user));
+            if (result.result.Succeeded)
+                return Ok(result);
+
+            return BadRequest(result);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Token(string email, string password)
+        [AllowAnonymous]
+        [HttpGet("Token")]
+        public async Task<IActionResult> Token([FromBody] AuthenticateModel model)
         {
-            AuthenticateModel model = new AuthenticateModel { UserName = email, Password = password };
             (Result result, UserApp user) result = await Mediator.Send(new AuthenticateUserCommand(model));
 
             if (result.result.Succeeded)
                 return Ok(result.user.AccessToken);
 
-            ModelState.AddModelError("", "Invalid login attempt");
-            return View();
+            return Unauthorized(result);
         }
 
-        [HttpGet]
+        [AllowAnonymous]
+        [HttpGet("logout")]
         public IActionResult Register()
         {
-            return View();
+            return Unauthorized();
         }
 
         // [HttpPost]
