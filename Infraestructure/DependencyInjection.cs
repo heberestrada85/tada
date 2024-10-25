@@ -13,6 +13,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using System.Collections.Generic;
+using Tada.Application.Policies;
+using Tada.Application.Models;
+using Tada.Application.Helpers;
+using Tada.Application.Constants;
+using System.Text;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.JsonWebTokens;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Tada.Infrastructure
 {
@@ -49,13 +59,22 @@ namespace Tada.Infrastructure
                     options.Password.RequiredLength = 4;
                 })
                 .AddRoles<ApplicationRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                                                .RequireAuthenticatedUser()
+                                                .Build();
+            });
+
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddTransient<IIdentityRoleService, IdentityRoleService>();
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
             services.AddSingleton<IJwtTokenHandler, JwtTokenHandler>();
             services.AddSingleton<IJwtTokenValidator, JwtTokenValidator>();
             services.AddSingleton<IJwtFactory, JwtFactory>();
@@ -77,26 +96,47 @@ namespace Tada.Infrastructure
 
             services.TryAddSingleton(jwtAppSettings);
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+            services
+            .AddAuthentication(options =>
             {
-                options.RequireHttpsMetadata = false;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = jwtAppSettings.SignInKey,
                     ValidateIssuer = true,
-                    ValidIssuer = jwtAppSettings.Issuer,
                     ValidateAudience = true,
-                    ValidAudience = jwtAppSettings.Audience,
-                    RequireExpirationTime = false,
                     ValidateLifetime = true,
-                    ClockSkew = TimeSpan.Zero
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = jwtAppSettings.Issuer,
+                    ValidAudience = jwtAppSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtAppSettings.SecretKey)),
                 };
+                options.SaveToken = true;
+                options.UseSecurityTokenValidators = true;
                 options.Events = new JwtBearerEvents
                 {
-                    OnTokenValidated = async context =>
+                    OnAuthenticationFailed = context =>
                     {
-                       var t= context.Principal;
+                        // Breakpoint aquí para ver por qué falla
+                        Console.WriteLine($"Error de autenticación: {context.Exception}");
+                        return Task.CompletedTask;
+                    },
+                    OnTokenValidated = context =>
+                    {
+                       var identity= context.Principal;
+                        if (identity == null)
+                            context.Fail("User invalid");
+                        else
+                        {
+                            foreach (var claim in identity.Claims)
+                            {
+                                Console.WriteLine($"Claim: {claim.Type} - {claim.Value}");
+                            }
+                        }
+                        return Task.CompletedTask;
                     }
                 };
             });

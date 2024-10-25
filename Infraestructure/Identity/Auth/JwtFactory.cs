@@ -61,18 +61,20 @@ namespace Tada.Infrastructure.Identity.Auth
             }
 
             JwtSecurityToken jwt = new JwtSecurityToken(
-                _jwtOptions.Issuer,
-                _jwtOptions.Audience,
-                claims,
-                _jwtOptions.NotBefore,
-                _jwtOptions.Expiration,
-                _jwtOptions.SigningCredentials);
+                issuer: _jwtOptions.Issuer,
+                audience: _jwtOptions.Audience,
+                claims: claims,
+                notBefore: _jwtOptions.NotBefore,
+                expires: _jwtOptions.Expiration,
+                signingCredentials: _jwtOptions.SigningCredentials
+            );
 
             var token = _jwtTokenHandler.WriteToken(jwt);
             var time = (int)_jwtOptions.ValidFor.TotalSeconds;
 
             return new AccessToken(token, time);
         }
+
         private static ClaimsIdentity GenerateClaimsIdentity(string id, string userName)
         {
             return new ClaimsIdentity(new GenericIdentity(userName, "Token"), new[]
@@ -85,7 +87,7 @@ namespace Tada.Infrastructure.Identity.Auth
           => (long)Math.Round((date.ToUniversalTime() -
                                new DateTimeOffset(1970, 1, 1, 0, 0, 0, TimeSpan.Zero))
                               .TotalSeconds);
-        /// <param name="options"></param>
+
         private static void ThrowIfInvalidOptions(JwtIssuerOptions options)
         {
             if (options == null) throw new ArgumentNullException(nameof(options));

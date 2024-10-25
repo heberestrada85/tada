@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Identity;
 using Tada.Infrastructure.Persistence;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace Tada
 {
@@ -37,8 +35,6 @@ namespace Tada
             await host.RunAsync();
         }
 
-        /// <param name="args"></param>
-        /// <returns></returns>
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, config) =>
@@ -54,7 +50,7 @@ namespace Tada
                 })
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseWebRoot("public")
-                .UseUrls("http://*:5001")
+                .UseUrls("http://*:5002")
                 .ConfigureLogging((c, l) =>
                 {
                     var isDevelopment = string.Equals(Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT").ToLower(), "development", StringComparison.InvariantCultureIgnoreCase);

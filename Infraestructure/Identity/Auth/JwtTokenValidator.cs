@@ -1,8 +1,7 @@
-﻿
+﻿using System.Text;
 using System.Security.Claims;
-using System.Text;
-using Microsoft.IdentityModel.Tokens;
 using Tada.Application.Interface;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Tada.Infrastructure.Identity.Auth
 {

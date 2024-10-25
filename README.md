@@ -1,23 +1,22 @@
-# Introduction
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project.
+# Tada Project
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+## Development environment
+1. Docker desktop
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests.
+### Running development environment
+1. First step is build the project locally whit the command  `docker compose build`
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better.
+### About Omninauth authentication for Azure Active Directory
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+The following environment variables will be required if Azure Active Directory sign in will be used:
+
+1. `AZURE_APP_ID`
+2. `AZURE_APP_SECRET`
+3. `AZURE_SCOPES` with value `'openid profile email user.read'`
+4. `ENABLE_OMNIAUTH_AZURE_AD_AUTHENTICATION` with a value of `true`
+
+If you want to test it in your development environment, be sure to create an application, a secret, and ensure to set it up as a `Multitenant` application, then set the callback URL to `http://localhost:3000/users/auth/microsoft_graph_auth/callback`. Of course, for production, instead of `http://localhost:3000` use the appropriate `https` domain.
+
 
 
 # Run Migrations on dotnet command

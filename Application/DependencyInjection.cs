@@ -15,7 +15,6 @@ namespace Tada.Application
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
             services.AddScoped<SignInManager<ApplicationUser>, SignInManager<ApplicationUser>>();
             services.AddScoped<RoleManager<ApplicationRole>, AspNetRoleManager<ApplicationRole>>();
-
             return services;
         }
     }

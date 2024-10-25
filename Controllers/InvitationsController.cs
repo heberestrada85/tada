@@ -7,17 +7,6 @@ namespace Tada.Controllers
 {
     public class InvitationsController : ApiController
     {
-
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody]  InvitationsModel model)
-        {
-            var result = await Mediator.Send(new CreateInvitationsCommand(model));
-            if (result.Succeeded)
-                return Ok(result);
-
-            return BadRequest(result);
-        }
-
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -31,6 +20,16 @@ namespace Tada.Controllers
         {
             var result = await Mediator.Send(new GetInvitationsByIdQuery(id));
             return Ok(result);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody]  InvitationsModel model)
+        {
+            var result = await Mediator.Send(new CreateInvitationsCommand(model));
+            if (result.Succeeded)
+                return Ok(result);
+
+            return BadRequest(result);
         }
 
         [HttpDelete("{id:int}")]

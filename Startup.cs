@@ -28,7 +28,7 @@ namespace Tada
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient();
+
             services.AddApplication();
             services.AddInfrastructure(Configuration);
             services.AddJwtInfrastructure(Configuration);
@@ -93,11 +93,12 @@ namespace Tada
             app.UseAuthentication();
             app.UseAuthorization();
 
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Accounts}/{action=Index}/{id?}");
+                    pattern: "{controller}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
