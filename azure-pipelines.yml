@@ -1,17 +1,99 @@
-# ASP.NET Core
-# Build and test ASP.NET Core projects targeting .NET Core.
-# Add steps that run tests, create a NuGet package, deploy, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
-
 trigger:
 - main
 
 pool:
-  vmImage: windows-latest
+  vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'
 
-steps:
-- script: dotnet build --configuration $(buildConfiguration)
-  displayName: 'dotnet build $(buildConfiguration)'
+  #Replace these variables to suit your application
+  projectName: 'TadaService'
+  websiteName: 'TadaService'
+  appPoolName: 'TadaService'
+
+stages:
+- stage: 'Build'
+  displayName: 'Build'
+  jobs:
+     - job:
+       steps:
+        - task: DotNetCoreCLI@2
+          displayName: 'dotnet restore'
+          inputs:
+            command: 'restore'
+            projects: '*.sln'
+
+        - task: DotNetCoreCLI@2
+          displayName: Build
+          inputs:
+            command: 'build'
+            projects: '*.sln'
+            arguments: --configuration Release
+
+        - task: DotNetCoreCLI@2
+          displayName: Test
+          inputs:
+            command: test
+            projects: '*.sln'
+            arguments: '--configuration $(BuildConfiguration)'
+
+        - task: DotNetCoreCLI@2
+          displayName: 'Publish the project - $(buildConfiguration)'
+          inputs:
+            command: 'publish'
+            projects: '**/*.csproj'
+            publishWebProjects: false
+            arguments: '--no-build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)/$(buildConfiguration)'
+            zipAfterPublish: true
+
+        - publish: '$(Build.ArtifactStagingDirectory)'
+          artifact: drop
+- stage: 'Dev'
+  displayName: 'Dev'
+  dependsOn: 'Build'
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
+  jobs:
+   - deployment: Dev
+     displayName: Dev
+     environment:
+       name: 'Dev'
+       resourceType: VirtualMachine
+     variables:
+     - name: websitePhysicalPath
+       value: '%SystemDrive%\inetpub\wwwroot\$(websiteName)'
+
+     strategy:
+      runOnce:
+        deploy:
+          steps:
+          - task: IISWebAppManagementOnMachineGroup@0
+            inputs:
+              IISDeploymentType: 'IISWebsite'
+              ActionIISWebsite: 'CreateOrUpdateWebsite'
+              WebsiteName: '$(websiteName)'
+              WebsitePhysicalPath: '$(websitePhysicalPath)'
+              WebsitePhysicalPathAuth: 'WebsiteUserPassThrough'
+              CreateOrUpdateAppPoolForWebsite: true
+              AppPoolNameForWebsite: '$(appPoolName)'
+              DotNetVersionForWebsite: 'No Managed Code'
+              PipeLineModeForWebsite: 'Integrated'
+              AppPoolIdentityForWebsite: 'ApplicationPoolIdentity'
+              AddBinding: true
+              Bindings: |
+                  {
+                      bindings:[
+                          {
+                              "protocol":"http",
+                              "ipAddress":"",
+                              "hostname":"",
+                              "port":"80",
+                              "sslThumbprint":"",
+                              "sniFlag":false
+                          }
+                      ]
+                  }
+          - task: IISWebAppDeploymentOnMachineGroup@0
+            inputs:
+              WebSiteName: '$(websiteName)'
+              Package: '$(Pipeline.Workspace)/drop/$(buildConfiguration)/$(projectName).zip'
