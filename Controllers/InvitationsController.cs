@@ -16,7 +16,7 @@ namespace Tada.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetById([FromBody] int id)
+        public async Task<IActionResult> GetById(int id)
         {
             var result = await Mediator.Send(new GetInvitationsByIdQuery(id));
             return Ok(result);

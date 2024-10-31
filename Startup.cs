@@ -85,9 +85,8 @@ namespace Tada
             app.UseResponseCompression();
             app.UseCors(CorsPolicy);
             app.UseHealthChecks("/health");
-            app.UseResponseCompression();
 
-            app.UseMvc();
+            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();

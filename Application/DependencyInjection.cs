@@ -4,6 +4,7 @@ using System.Reflection;
 using Tada.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using Tada.Application.Mappings;
 
 namespace Tada.Application
 {
